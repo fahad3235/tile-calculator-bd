@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tile Calculator BD</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header class="topbar">
+  <div>
+    <h1 id="appTitle">Tile Calculator BD</h1>
+    <p id="tagline" class="tagline">Floor &amp; wall tiles for your home: area, tiles, boxes and cost — before you buy.</p>
+  </div>
+  <button id="langBtn" class="lang-btn" type="button">বাংলা</button>
+</header>
+
+<main>
+  <section class="stats" aria-label="Totals">
+    <div class="stat"><span class="stat-label" data-i18n="statRooms">Rooms</span><strong id="statRooms">0</strong></div>
+    <div class="stat"><span class="stat-label" data-i18n="statArea">Total area</span><strong id="statArea">0.00 sq ft</strong></div>
+    <div class="stat"><span class="stat-label" data-i18n="statTiles">Tiles needed</span><strong id="statTiles">0</strong></div>
+    <div class="stat"><span class="stat-label" data-i18n="statBoxes">Boxes needed</span><strong id="statBoxes">0</strong></div>
+    <div class="stat"><span class="stat-label" data-i18n="statCost">Estimated cost</span><strong id="statCost">৳0.00</strong></div>
+  </section>
+
+  <section class="card">
+    <h2 data-i18n="addTitle">Add a room</h2>
+    <form id="roomForm" novalidate>
+      <div class="grid">
+        <label class="field"><span data-i18n="roomName">Room name</span>
+          <input id="roomName" type="text" maxlength="60" placeholder="e.g. Living room"></label>
+        <label class="field"><span data-i18n="surface">Surface</span>
+          <select id="surfaceSel">
+            <option value="floor">Floor</option>
+            <option value="wall">Wall</option>
+          </select></label>
+        <label class="field"><span data-i18n="length">Length</span>
+          <input id="dimLen" type="number" min="0" step="any" inputmode="decimal"></label>
+        <label class="field"><span id="dimWidLabel" data-i18n="width">Width</span>
+          <input id="dimWid" type="number" min="0" step="any" inputmode="decimal"></label>
+        <label class="field"><span data-i18n="unit">Unit</span>
+          <select id="dimUnit">
+            <option value="ft">feet</option>
+            <option value="m">metres</option>
+            <option value="inch">inches</option>
+            <option value="cm">cm</option>
+          </select></label>
+        <label class="field" id="openingsRow"><span data-i18n="openings">Minus openings (sq ft, walls only)</span>
+          <input id="openings" type="number" min="0" step="any" value="0" inputmode="decimal">
+          <small data-i18n="openingsHint">Doors + windows area to subtract. Leave 0 for floors.</small></label>
+        <label class="field"><span data-i18n="tilePreset">Tile size preset</span>
+          <select id="tilePreset">
+            <option value="12x12|inch">12 × 12 inch</option>
+            <option value="16x16|inch">16 × 16 inch</option>
+            <option value="24x24|inch">24 × 24 inch</option>
+            <option value="12x24|inch">12 × 24 inch</option>
+            <option value="2x1|ft">2 × 1 ft</option>
+            <option value="60x60|cm">60 × 60 cm</option>
+            <option value="custom">Custom size</option>
+          </select></label>
+        <label class="field"><span data-i18n="tileLen">Tile length</span>
+          <input id="tileLen" type="number" min="0" step="any" value="12" inputmode="decimal"></label>
+        <label class="field"><span data-i18n="tileWid">Tile width</span>
+          <input id="tileWid" type="number" min="0" step="any" value="12" inputmode="decimal"></label>
+        <label class="field"><span data-i18n="tileUnit">Tile unit</span>
+          <select id="tileUnit">
+            <option value="inch">inches</option>
+            <option value="ft">feet</option>
+            <option value="cm">cm</option>
+          </select></label>
+        <label class="field"><span data-i18n="wastage">Wastage %</span>
+          <input id="wastage" type="number" min="0" max="50" step="any" value="10" inputmode="decimal">
+          <small data-i18n="wastageHint">Cuts &amp; breakage. 10% is the usual allowance.</small></label>
+        <label class="field"><span data-i18n="perBox">Tiles per box</span>
+          <input id="perBox" type="number" min="1" step="1" value="10" inputmode="numeric"></label>
+        <label class="field"><span data-i18n="priceMode">Price is per</span>
+          <select id="priceMode">
+            <option value="tile">tile</option>
+            <option value="box">box</option>
+          </select></label>
+        <label class="field"><span data-i18n="price">Price (৳)</span>
+          <input id="price" type="number" min="0" step="any" value="50" inputmode="decimal"></label>
+      </div>
+      <p id="errorEl" class="error" hidden></p>
+      <button id="addBtn" class="primary" type="submit" data-i18n="addBtn">Add room</button>
+    </form>
+  </section>
+
+  <section class="card">
+    <h2 data-i18n="roomsTitle">Rooms</h2>
+    <p id="roomsEmpty" data-i18n="emptyRooms">No rooms yet. Add your first room above.</p>
+    <ul id="roomsList" class="rooms"></ul>
+  </section>
+
+  <section class="card">
+    <h2 data-i18n="dataTitle">Your data</h2>
+    <div class="data-row">
+      <button id="exportBtn" type="button" data-i18n="exportBtn">Export JSON</button>
+      <label class="file-btn"><span data-i18n="importBtn">Import JSON</span>
+        <input id="importFile" type="file" accept=".json,application/json" hidden></label>
+    </div>
+    <div class="data-row">
+      <label class="field"><span data-i18n="eraseLabel">Type DELETE to erase all rooms</span>
+        <input id="eraseInput" type="text" autocomplete="off"></label>
+      <button id="eraseBtn" class="danger" type="button" data-i18n="eraseBtn">Erase all</button>
+    </div>
+    <p id="dataMsg" class="msg" hidden></p>
+  </section>
+
+  <footer><p data-i18n="footer">Offline tool. Estimates only — measure twice, and confirm tile size and price with your shop before ordering. Prices are your own inputs, not market rates.</p></footer>
+</main>
+
+<script src="js/logic.js"></script>
+<script src="js/i18n.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
