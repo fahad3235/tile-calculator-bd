@@ -4,7 +4,7 @@ Offline bilingual (English / বাংলা) floor & wall tile estimator for Ba
 Add rooms, and it computes area, tiles needed (with wastage), boxes needed, and cost —
 before you buy a single tile.
 
-**Factory run #182 — MUSE Project Factory Ω, 2026-10-30 14:00 slot (Asia/Dhaka).**
+**Factory run #183 — MUSE Project Factory Ω, 2026-10-30 14:00 slot (Asia/Dhaka).**
 Live: https://fahad3235.github.io/tile-calculator-bd/
 
 ## Problem
